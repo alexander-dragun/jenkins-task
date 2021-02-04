@@ -3,7 +3,7 @@ def artifactory_repo = "conan-local"
 def repo_url = 'https://github.com/curl/curl.git'
 def repo_branch = 'master'
 
-node {
+node("Agent") {
     def server = Artifactory.server artifactory_name
     def client = Artifactory.newConanClient()
 
