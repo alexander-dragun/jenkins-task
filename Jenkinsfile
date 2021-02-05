@@ -11,14 +11,7 @@ node("Agent") {
         git branch: repo_branch, url: repo_url
     }
 
-    stage("Get dependencies and publish build info"){
-        sh "mkdir -p build"
-        dir ('build') {
-          def b = client.run(command: "install ..")
-          server.publishBuildInfo b
-        }
-    }
-
+   
     stage("Build/Test project"){
         dir ('build') {
           sh "cmake ../ && cmake --build ."
