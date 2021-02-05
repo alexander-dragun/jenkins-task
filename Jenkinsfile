@@ -15,7 +15,7 @@ node("Agent") {
     stage("Build/Test project"){
         sh "mkdir -p build"
         dir ('build') {
-          sh "cmake ../ && make"
+          sh "./configure ../ && make"
         }
     }
    
