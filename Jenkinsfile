@@ -19,11 +19,12 @@ node('Agent') {
     }
 
     stage('Upload artifacts') {
+        sh 'pwd'
         def uploadSpec = '''{
              "files": [
                     {
-                    "pattern": "build",
-                    "target": "generic-local"
+                    "pattern": "build/",
+                    "target": "generic-local/"
                     }
                 ]
             }'''
