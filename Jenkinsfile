@@ -21,7 +21,7 @@ node("Agent") {
    
    stage("Upload packages"){
        dir ('build') { 
-       String command = "upload \"*\" --all -r ${serverName} --confirm"
+           String command = "upload ${pwd} --all -r ${serverName} --confirm"
         def b = client.run(command: command)
         server.publishBuildInfo b
        }
