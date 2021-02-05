@@ -15,7 +15,7 @@ node("Agent") {
    
    stage("Build/Test project"){
         dir ('build') {
-          sh "cmake ../ && cmake --build ."
+          sh "cmake ../ && make"
         }
     }
    
