@@ -28,5 +28,5 @@ node('Agent') {
                 ]
             }'''
         server.upload spec: uploadSpec, failNoOp: true
-    }
+
 }
