@@ -12,10 +12,9 @@ node("Agent") {
     }
 
    
-    stage("Build/Test project"){
-        sh "mkdir -p build"
+   stage("Build/Test project"){
         dir ('build') {
-          sh "./configure ../ && make"
+          sh "cmake ../ && cmake --build ."
         }
     }
    
