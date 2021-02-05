@@ -19,11 +19,11 @@ node('Agent') {
     }
 
     stage('Upload artifacts') {
-        sh 'pwd'
+        sh 'zip -r build_$(date +%Y-%m-%d-%H:%M:%S).zip build'
         def uploadSpec = '''{
              "files": [
                     {
-                    "pattern": "build/",
+                    "pattern": "build*.zip",
                     "target": "generic-local/"
                     }
                 ]
