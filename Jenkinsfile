@@ -12,23 +12,21 @@ node('Agent') {
         git branch: repo_branch, url: repo_url
     }
 
-    stage('Build/Test project') {
-        dir ('build') {
-            sh "cmake ../ && cmake --build ." //sh 'cmake ../ && make' 
-        }
+    stage('Build/Test project') {        
+        sh "./buildconf && ./configure --prefix=/`pwd`/curl_app && make install"           
     }
 
     stage('Upload artifacts') {
-        sh 'zip -r build_$(date +%Y-%m-%d-%H:%M:%S).zip build'
+        sh 'zip -r curl_app_$(date +%Y-%m-%d-%H:%M:%S).zip curl_app'
         def uploadSpec = '''{
              "files": [
                     {
-                    "pattern": "build*.zip",
+                    "pattern": "curl_app_*.zip",
                     "target": "generic-local/"
                     }
                 ]
             }'''
         server.upload spec: uploadSpec, failNoOp: true
 
-}
+    }
 }
