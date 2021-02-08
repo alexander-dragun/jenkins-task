@@ -1,19 +1,28 @@
 def artifactory_name = 'Artifactory'
-//def artifactory_repo = 'conan-local'
+def server = Artifactory.server artifactory_name
 def repo_url = 'https://github.com/curl/curl.git'
 def repo_branch = 'master'
 
 node('Agent') {
-    def server = Artifactory.server artifactory_name
-    /*def client = Artifactory.newConanClient()
-    def serverName = client.remote.add server: server, repo: artifactory_repo*/
-
+    
+    triggers { 
+        pollSCM('H */4 * * 1-5') 
+    }
+    
     stage('Get project') {
         git branch: repo_branch, url: repo_url
     }
 
-    stage('Build/Test project') {        
-        sh "./buildconf && ./configure --prefix=/`pwd`/curl_app && make install"           
+    stage('Build') {        
+        sh "./buildconf && ./configure --enable-debug --prefix=/`pwd`/curl_app"           
+    }
+    
+    stage('Unit tests'){
+        sh "make test"
+    }
+    
+    stag('Prepare artifact'){
+        sh "make install"
     }
 
     stage('Upload artifacts') {
@@ -27,6 +36,9 @@ node('Agent') {
                 ]
             }'''
         server.upload spec: uploadSpec, failNoOp: true
-
     }
+    
+    stage ('Publish build info') {
+            server.publishBuildInfo buildInfo
+        }
 }
