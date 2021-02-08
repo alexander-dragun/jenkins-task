@@ -41,6 +41,7 @@ node('Agent') {
                 ]
             }'''
         server.upload spec: uploadSpec, failNoOp: true
+        sh "rm curl_app_*.zip"
     }
     
     stage ('Publish build info') {
