@@ -1,5 +1,6 @@
 def artifactory_name = 'Artifactory'
 def server = Artifactory.server artifactory_name
+def buildInfo = Artifactory.newBuildInfo()
 def repo_url = 'https://github.com/curl/curl.git'
 def repo_branch = 'master'
 
