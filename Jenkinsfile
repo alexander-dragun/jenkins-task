@@ -5,7 +5,7 @@ def repo_branch = 'master'
 
 properties([[$class: 'BuildDiscarderProperty',
                 strategy: [$class: 'LogRotator', numToKeepStr: '5']],
-                pipelineTriggers([pollSCM('H */4 * * 1-5')]),
+                pipelineTriggers([cron('H */4 * * 1-5')]),
                 ])
 
 node('Agent') {
@@ -19,6 +19,7 @@ node('Agent') {
     }
     
     stage('Unit tests'){
+        ignoreFailures = true
         sh "make test"
     }
     
