@@ -17,14 +17,12 @@ node('Agent') {
 
     stage('Build') {        
         sh "./buildconf && ./configure --enable-debug --prefix=/`pwd`/curl_app"           
-    }
-    
-  try{
+    }    
+  
     stage('Unit tests'){
         
         sh "make test"
-    }
-  } catch (error){
+    }  
     
     stage('Prepare artifact'){
         sh "make install"
@@ -47,5 +45,4 @@ node('Agent') {
     stage ('Publish build info') {
             server.publishBuildInfo buildInfo
         }
-  }
-}
+ }
