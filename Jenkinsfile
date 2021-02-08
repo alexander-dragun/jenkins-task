@@ -18,12 +18,14 @@ node('Agent') {
         sh "./buildconf && ./configure --enable-debug --prefix=/`pwd`/curl_app"           
     }
     
+  try{
     stage('Unit tests'){
-        ignoreFailures = true
+        
         sh "make test"
     }
+  } catch (error){
     
-    stag('Prepare artifact'){
+    stage('Prepare artifact'){
         sh "make install"
     }
 
@@ -43,4 +45,5 @@ node('Agent') {
     stage ('Publish build info') {
             server.publishBuildInfo buildInfo
         }
+  }
 }
