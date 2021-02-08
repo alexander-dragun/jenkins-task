@@ -10,22 +10,20 @@ properties([[$class: 'BuildDiscarderProperty',
                 ])
 
 node('Agent') {
-       
     stage('Get project') {
         git branch: repo_branch, url: repo_url
     }
 
-    stage('Build') {        
-        sh "./buildconf && ./configure --enable-debug --prefix=/`pwd`/curl_app"           
-    }    
-  
-    stage('Unit tests'){
-        
-        sh "make test"
-    }  
-    
-    stage('Prepare artifact'){
-        sh "make install"
+    stage('Build') {
+        sh './buildconf && ./configure --enable-debug --prefix=/`pwd`/curl_app'
+    }
+
+    stage('Unit tests') {
+        sh 'make test'
+    }
+
+    stage('Prepare artifact') {
+        sh 'make install'
     }
 
     stage('Upload artifacts') {
@@ -39,10 +37,10 @@ node('Agent') {
                 ]
             }'''
         server.upload spec: uploadSpec, failNoOp: true
-        sh "rm curl_app_*.zip"
+        sh 'rm curl_app*'
     }
-    
+
     stage ('Publish build info') {
             server.publishBuildInfo buildInfo
-        }
- }
+    }
+}
