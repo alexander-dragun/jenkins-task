@@ -15,7 +15,7 @@ node('Agent') {
     }
 
     stage('Build') {
-        sh './buildconf && ./configure --enable-debug --enable-maintainer-mode --prefix=/`pwd`/curl_app'
+        sh './buildconf && ./configure --enable-debug --enable-maintainer-mode --prefix=/`pwd`/curl_app && make'
     }
 
     stage('Unit tests') {
