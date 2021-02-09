@@ -6,7 +6,7 @@ def repo_branch = 'master'
 
 properties([[$class: 'BuildDiscarderProperty',
                 strategy: [$class: 'LogRotator', numToKeepStr: '5']],
-                pipelineTriggers([cron('H */4 * * 1-5')]),
+                pipelineTriggers([cron('H */24 * * 1-5')]),
                 ])
 
 node('Agent') {
@@ -37,7 +37,7 @@ node('Agent') {
                 ]
             }'''
         server.upload spec: uploadSpec, failNoOp: true
-        sh 'rm curl_app*'
+        sh 'rm -r curl_app*'
     }
 
     stage ('Publish build info') {
